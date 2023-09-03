@@ -17,22 +17,22 @@ def lookForImage(imgName, gameZone):
         BASE_IMG + imgName + ".png",
         region=gameZone,
         grayscale=False,
-        confidence=0.75,
+        confidence=0.70,
     )
 
 
 def lookForInvaders():
     return [
         lookForImage("weapon_transparent", GAME_ZONE_2),
-        lookForImage("invader_04", GAME_ZONE_2),
-        lookForImage("invader_03", GAME_ZONE_2),
-        lookForImage("invader_02", GAME_ZONE_2),
-        lookForImage("invader_01", GAME_ZONE_2),
+        lookForImage("invader_04_transparent", GAME_ZONE_2),
+        lookForImage("invader_03_transparent", GAME_ZONE_2),
+        lookForImage("invader_02_transparent", GAME_ZONE_2),
+        lookForImage("invader_01_transparent", GAME_ZONE_2),
         lookForImage("weapon_transparent", GAME_ZONE_1),
-        lookForImage("invader_04", GAME_ZONE_1),
-        lookForImage("invader_03", GAME_ZONE_1),
-        lookForImage("invader_02", GAME_ZONE_1),
-        lookForImage("invader_01", GAME_ZONE_1),
+        lookForImage("invader_04_transparent", GAME_ZONE_1),
+        lookForImage("invader_03_transparent", GAME_ZONE_1),
+        lookForImage("invader_02_transparent", GAME_ZONE_1),
+        lookForImage("invader_01_transparent", GAME_ZONE_1),
     ]
 
 
