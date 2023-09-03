@@ -30,18 +30,27 @@ images_list = [weapon, inv_01, inv_02, inv_03, inv_04]
 
 who = ["weapon", "inv_01", "inv_02", "inv_03", "inv_04"]
 prevShots = [
-    {"value": 10, "who": who[1]},
-    {"value": 11, "who": who[3]},
-    {"value": 12, "who": who[2]},
+    {"xValue": 10, "yValue": 10, "who": who[1]},
+    {"xValue": 11, "yValue": 11, "who": who[3]},
+    {"xValue": 12, "yValue": 12, "who": who[2]},
+    {"xValue": 12, "yValue": 12, "who": who[2]},
+    {"xValue": 12, "yValue": 12, "who": who[2]},
+    {"xValue": 12, "yValue": 12, "who": who[2]},
+    {"xValue": 12, "yValue": 12, "who": who[2]},
+    {"xValue": 12, "yValue": 12, "who": who[2]},
 ]
 
 
-def alreadyShoted(_x, _idx):
+def alreadyShoted(_x, _y, _idx):
     global prevShots
 
     for s in prevShots:
-        if who[_idx] == s["who"] and _x in range(s["value"] - 1, s["value"] + 1):
-            print(" -> already SHOT", _x, who[_idx])
+        if (
+            who[_idx] == s["who"]
+            and _x in range(s["xValue"] - 1, s["xValue"] + 1)
+            and _y > (s["yValue"] + 30)
+        ):
+            print(" -> already SHOT: ", _x, _y, who[_idx])
             return True
 
     return False
@@ -69,27 +78,41 @@ while True:
             h = img.shape[0]
             _x = GAME_ZONE_1["left"] + max_loc[0] + int(w / 2)
             _y = GAME_ZONE_1["top"] + max_loc[1] + int(h / 2)
-            if not alreadyShoted(_x, idx):
+            if not alreadyShoted(_x, _y, idx):
                 cv2.rectangle(
                     _screen, max_loc, (max_loc[0] + w, max_loc[1] + h), (0, 255, 255), 2
                 )
                 pyautogui.click(x=_x, y=_y)
-                prevShots.pop(0)
-                prevShots.append({"value": _x, "who": who[idx]})
-                points += 5
+                if not idx == 0:
+                    points += 5
                 found = True
                 print(
                     f"\tSHOT!  Confident: {round(max_val, 3)}  Location: {_x,_y}  Who: {who[idx]}"
                 )
                 print("\tPoints: ", points)
-                # if points % 50 == 0:
-                print("\tPrevShots: ", prevShots)
+                if points % 10 == 0:
+                    text = ""
+                    for s in prevShots:
+                        text = (
+                            text
+                            + " { "
+                            + str(s["xValue"])
+                            + ", "
+                            + str(s["yValue"])
+                            + " "
+                            + s["who"]
+                            + " },"
+                        )
+                    print("\tPrevShots: ", text)
 
                 cv2.imshow("Result", result)
                 cv2.moveWindow("Result", 300, 40)
                 cv2.imshow("Screen Shot", _screen)
                 cv2.moveWindow("Screen Shot", 300, 380)
                 cv2.waitKey(1)
+
+            prevShots.pop(0)
+            prevShots.append({"xValue": _x, "yValue": _y, "who": who[idx]})
             sleep(0.05)
 
         # cv2.destroyAllWindows()
